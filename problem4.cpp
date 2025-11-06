@@ -13,6 +13,16 @@ struct Node {
     {}
 };
 
+void inorder(Node* root){
+    if (root == nullptr) {
+        return;
+    }
+
+    inorder(root->left);
+    std::cout << root->data << std::endl;
+    inorder(root->right);
+}
+
 Node* insert(Node* root, int newData) {
     if(root == nullptr) {
         return new Node(newData);
@@ -42,7 +52,7 @@ Node* createTree() {
 
     Node* root = new Node(newData);
 
-    for(int i = 0; i < initialTreeSize; i += 1) {
+    for(int i = 1; i < initialTreeSize; i += 1) {
         std::cout << "Tell me what the next node value is: ";
         std::cin >> newData;
         std::cout << std::endl;
@@ -55,6 +65,6 @@ Node* createTree() {
 
 int main() {
 
-    createTree();
-    
+    Node* root = createTree();
+    inorder(root);
 }
