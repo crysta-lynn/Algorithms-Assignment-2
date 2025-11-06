@@ -19,8 +19,32 @@ void inorder(Node* root){
     }
 
     inorder(root->left);
+    
     std::cout << root->data << std::endl;
+
     inorder(root->right);
+}
+
+void preorder(Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    std::cout << root->data << std::endl;
+
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+    
+    postorder(root->left);
+    postorder(root->right);
+    
+    std::cout << root->data << std::endl;
 }
 
 Node* insert(Node* root, int newData) {
@@ -63,8 +87,51 @@ Node* createTree() {
     return root;
 }
 
+void printMenu() {
+    std::cout   << "What would you like to do?\n"
+                << "Inorder traversal (1)\t"
+                << "Preorder traversal (2)\t"
+                << "Postorder traversal (3)\t"
+                << "Search (4)\t"
+                << "Exit (0)\n";
+}
+
+void menu(Node* root) {
+    int command;
+
+    printMenu();
+
+    while(std::cin >> command) {
+
+        switch(command) {
+            case 1:
+                inorder(root);
+                break;
+            case 2:
+                preorder(root);
+                break;
+            case 3:
+                postorder(root);
+                break;
+            case 4:
+                std::cout << "oops, this function does not exist yet, please choose another one\n";
+                break;
+            case 0:
+                return;
+            default:
+                std::cout << "invalid command, choose another\n";
+        
+        }
+
+        printMenu();
+
+    }
+}
+
 int main() {
 
     Node* root = createTree();
-    inorder(root);
+    menu(root);
+
+    return 0;
 }
