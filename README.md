@@ -49,7 +49,7 @@ O(n) + O(n^2)
 
 = O(n^2)
 
-# Optimal substructure property with rod cut problem and cut cost
+## Optimal substructure property with rod cut problem and cut cost
 
 R(n) is the maximum possible revenue from a rod of length n. p(n) is the price of the entire rod without cuts.
 To find the maximum revenue, we first decide whether or not to make a cut. If we do not make a cut, then the revenue, R(n) is p(n). If we do make a cut, the revenue, R(n), is p(i) + R(n-i) - c, where i is the best position/length we can cut, and c is the cost of making the cut. R(n-i) recursively finds the revenue of n-i. 
@@ -61,3 +61,8 @@ It is the job of each recursion to decide whether or not a cut is optimal.
 If a first cut at i is necessary to solve the problem optimally, the remainder, n-i, must also be solved optimally.
 
 The optimal revenue for a rod of length n depends on the optimal revenue of the recursive sub-problem, so the problem obeys the optimal substructure property, even when each cut has a cost.
+
+## BST
+The solution for problem 4 and 5 can be found in the file "BST.cpp". 
+
+I decided to combine them into one file. The insert and delete functions can be used from the same menu as the traversal and search functions.
