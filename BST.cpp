@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 
 struct Node {
 
@@ -183,6 +184,24 @@ Node* createTree() {
     return root;
 }
 
+Node* randomTree() {
+    int nodeCount;
+    int random = std::rand();
+
+    std::cout << "how many nodes should this tree have?\n";
+    std::cin >> nodeCount;
+
+    Node* root = new Node(random);
+
+    for(int i = 1; i < nodeCount; i += 1) {
+        random = std::rand();
+
+        insertNode(root, random);
+    }
+
+    return root;
+}
+
 void printMenu() {
     std::cout   << "What would you like to do?\n"
                 << "Inorder traversal (1)\t"
@@ -191,6 +210,8 @@ void printMenu() {
                 << "Search (4)\t"
                 << "Insert node (5)\t"
                 << "Delete node(6)\t"
+                << "Create new tree (7)\t"
+                << "Create new tree with random nodes (8)\n"
                 << "Exit (0)\n";
 }
 
@@ -222,6 +243,12 @@ Node* menu(Node* root) {
                 break;
             case 6:
                 root = userDelete(root);
+                break;
+            case 7:
+                root = createTree();
+                break;
+            case 8:
+                root = randomTree();
                 break;
             case 0:
                 return root;
