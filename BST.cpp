@@ -13,6 +13,14 @@ struct Node {
     {}
 };
 
+Node* minimumValueNode(Node* root) {
+    while (root->left != nullptr) {
+        root = root->left;
+    }
+
+    return root;
+}
+
 void inorder(Node* root){
     if (root == nullptr) {
         return;
@@ -80,17 +88,16 @@ bool userSearch(Node* root) {
 
 }
 
-
-Node* insert(Node* root, int newData) {
+Node* insertNode(Node* root, int newData) {
     if(root == nullptr) {
         return new Node(newData);
     }
 
     if(newData < root->data) {
-        root->left = insert(root->left, newData);
+        root->left = insertNode(root->left, newData);
     }
     else if(newData > root->data) {
-        root->right = insert(root->right, newData);
+        root->right = insertNode(root->right, newData);
     }
 
     return root;
@@ -102,8 +109,56 @@ void userInsert(Node* root) {
     std::cout << "What node value would you like to insert?";
     std::cin >> insertValue;
 
-    insert(root, insertValue);
+    insertNode(root, insertValue);
 
+}
+
+Node* deleteNode(Node* root, int deleteValue) { //will clean up this function if I can find time on friday; if you are seeing this message, I did not have time..
+    if (root == nullptr) {
+        return nullptr;
+    }
+
+    if (deleteValue < root->data) {
+        root->left = deleteNode(root->left, deleteValue);
+        return root;
+    }
+
+    else if (deleteValue > root->data) {
+        root->right = deleteNode(root->right, deleteValue);
+        return root;
+    }
+
+
+    
+    if (!root->left && !root->right) {
+        delete root;
+        return nullptr;
+    }
+
+    else if (!root->left) {
+        Node* rootReplacement = root->right;
+        delete root;
+        return rootReplacement;
+    }
+    else if (!root->right) {
+        Node* rootReplacement = root->left;
+        delete root;
+        return rootReplacement;
+    }
+
+    Node* rootReplacement = minimumValueNode(root->right);
+    root->data = rootReplacement->data;
+    root->right=deleteNode(root->right, rootReplacement->data);
+
+    return root;
+}
+
+Node* userDelete(Node* root) {
+    int deleteValue;
+    std::cout << "what value would you like to delete from the tree? ";
+    std::cin >> deleteValue;
+
+    return deleteNode(root, deleteValue);
 }
 
 Node* createTree() {
@@ -122,7 +177,7 @@ Node* createTree() {
         std::cout << "Tell me what the next node value is: ";
         std::cin >> newData;
 
-        insert(root, newData);
+        insertNode(root, newData);
     }
 
     return root;
@@ -139,7 +194,7 @@ void printMenu() {
                 << "Exit (0)\n";
 }
 
-void menu(Node* root) {
+Node* menu(Node* root) {
     int command;
 
     printMenu();
@@ -166,9 +221,10 @@ void menu(Node* root) {
                 userInsert(root);
                 break;
             case 6:
-                std::cout << "oops, the delete function does not exist yet, please choose another command.\n";
+                root = userDelete(root);
+                break;
             case 0:
-                return;
+                return root;
             default:
                 std::cout << "invalid command, choose another\n";
         
@@ -182,7 +238,7 @@ void menu(Node* root) {
 int main() {
 
     Node* root = createTree();
-    menu(root);
+    root = menu(root);
 
     return 0;
 }
